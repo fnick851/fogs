@@ -3,6 +3,7 @@ import { Canvas, useThree } from "@react-three/fiber"
 import { useCss } from "kremling"
 import React from "react"
 import { Fog, FogExp2 } from "three"
+import CanvasContainer from "../CanvasContainer"
 
 function Scene(props: { fog: Fog | FogExp2 }) {
   const { scene } = useThree()
@@ -28,38 +29,34 @@ function FogScene(props: {
   const cssScope = useCss(css)
 
   return (
-    <div {...cssScope} className="canvas-container">
-      <div className="label">
-        <a href={props.docLink} target="_blank">
-          {props.label}
-        </a>
+    <CanvasContainer>
+      <div {...cssScope} className="fog-scene">
+        <div className="label">
+          <a href={props.docLink} target="_blank">
+            {props.label}
+          </a>
+        </div>
+        <Canvas>
+          <Scene fog={props.fog} />
+        </Canvas>
       </div>
-      <Canvas>
-        <Scene fog={props.fog} />
-      </Canvas>
-    </div>
+    </CanvasContainer>
   )
 }
 
 const css = /*css*/ `
-& .canvas-container {
-  flex: 1;
-  border: 1px solid lightgray;
-  margin: 5px;
-  border-radius: 5px;
-  -webkit-box-shadow: 5px 5px 10px -5px rgba(0,0,0,0.5);
-  box-shadow: 5px 5px 10px -5px rgba(0,0,0,0.5);
-  position: relative;
+& .fog-scene {
+  height: 100%;
 }
 
-.label {
+& .label {
   position: absolute;
   top: 10px;
   left: 10px;
   z-index: 1;
 }
 
-.label a {
+& .label a {
   font-size: 12px
 }
 `

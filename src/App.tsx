@@ -1,38 +1,36 @@
 import React from "react"
+import { HashRouter as Router, Switch, Route, Link } from "react-router-dom"
 import { useCss } from "kremling"
-import FogScene from "./FogScene"
-import { Fog, FogExp2 } from "three"
-import { Leva, useControls } from "leva"
+import CustomFog1 from "./CustomFog1"
+import Default from "./default-view/Default"
 
 function App() {
   const cssScope = useCss(css)
 
-  const { FogColor, FogNear, FogFar, FogExp2Color, FogExp2Density } =
-    useControls({
-      FogColor: "white",
-      FogNear: 0,
-      FogFar: 7,
-      FogExp2Color: "white",
-      FogExp2Density: 0.2,
-    })
-
-  const fog1 = new Fog(FogColor, FogNear, FogFar)
-  const fog2 = new FogExp2(FogExp2Color, FogExp2Density)
-
   return (
-    <div {...cssScope} className="App">
-      <FogScene
-        fog={fog1}
-        label="Fog"
-        docLink="https://threejs.org/docs/?q=fog#api/en/scenes/Fog"
-      />
-      <FogScene
-        fog={fog2}
-        label="FogExp2"
-        docLink="https://threejs.org/docs/?q=fog#api/en/scenes/FogExp2"
-      />
-      <Leva oneLineLabels />
-    </div>
+    <Router>
+      <div {...cssScope} className="root-container">
+        <ul className="navigation">
+          <li>
+            <Link to="/">default</Link>
+          </li>
+          <li>
+            <Link to="/custom-fog-1">custom-fog-1</Link>
+          </li>
+        </ul>
+
+        <div className="scene">
+          <Switch>
+            <Route exact path="/">
+              <Default />
+            </Route>
+            <Route path="/custom-fog-1">
+              <CustomFog1 />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
   )
 }
 
@@ -42,11 +40,23 @@ const css = /*css*/ `
   padding: 0;
 }
 
-& .App {
-  width: 100vw;
-  height: 100vh;
+& .root-container {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+}
+
+& .navigation {
+  background-color: lightgrey;
+}
+
+& .navigation li {
+  display: inline-block;
+  margin: 5px;
+}
+
+& .scene {
+  flex: 1;
 }
 `
 
