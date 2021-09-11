@@ -11,7 +11,7 @@ function Scene(props: { fog: Fog | FogExp2 }) {
   return (
     <>
       <ambientLight color="white" />
-      <mesh>
+      <mesh rotation={[0, 0, Math.PI / 2]}>
         <cylinderGeometry args={[1, 1, 5, 50]} />
         <meshStandardMaterial color={0x8844aa} />
       </mesh>
